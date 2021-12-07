@@ -23,7 +23,18 @@
 		080164862743D61B00930886 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080164792743D61B00930886 /* User.swift */; };
 		08DCEFA32744274E004657A0 /* CurrencyExchanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DCEFA22744274E004657A0 /* CurrencyExchanger.swift */; };
 		08DCEFA72744290E004657A0 /* Amount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DCEFA62744290E004657A0 /* Amount.swift */; };
+		BE8CC809275FAA100023A3AA /* FriendsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8CC808275FAA100023A3AA /* FriendsTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BE8CC80A275FAA100023A3AA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 080163B52743D39500930886 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 080163BC2743D39500930886;
+			remoteInfo = CrashCourse;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		080163BD2743D39500930886 /* CrashCourse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrashCourse.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,10 +55,19 @@
 		080164792743D61B00930886 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		08DCEFA22744274E004657A0 /* CurrencyExchanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyExchanger.swift; sourceTree = "<group>"; };
 		08DCEFA62744290E004657A0 /* Amount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Amount.swift; sourceTree = "<group>"; };
+		BE8CC806275FAA100023A3AA /* CrashCourseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrashCourseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE8CC808275FAA100023A3AA /* FriendsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		080163BA2743D39500930886 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE8CC803275FAA100023A3AA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -61,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				080163BF2743D39500930886 /* CrashCourse */,
+				BE8CC807275FAA100023A3AA /* CrashCourseTests */,
 				080163BE2743D39500930886 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -69,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				080163BD2743D39500930886 /* CrashCourse.app */,
+				BE8CC806275FAA100023A3AA /* CrashCourseTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,6 +119,14 @@
 			path = CrashCourse;
 			sourceTree = "<group>";
 		};
+		BE8CC807275FAA100023A3AA /* CrashCourseTests */ = {
+			isa = PBXGroup;
+			children = (
+				BE8CC808275FAA100023A3AA /* FriendsTests.swift */,
+			);
+			path = CrashCourseTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -117,6 +147,24 @@
 			productReference = 080163BD2743D39500930886 /* CrashCourse.app */;
 			productType = "com.apple.product-type.application";
 		};
+		BE8CC805275FAA100023A3AA /* CrashCourseTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE8CC80E275FAA100023A3AA /* Build configuration list for PBXNativeTarget "CrashCourseTests" */;
+			buildPhases = (
+				BE8CC802275FAA100023A3AA /* Sources */,
+				BE8CC803275FAA100023A3AA /* Frameworks */,
+				BE8CC804275FAA100023A3AA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BE8CC80B275FAA100023A3AA /* PBXTargetDependency */,
+			);
+			name = CrashCourseTests;
+			productName = CrashCourseTests;
+			productReference = BE8CC806275FAA100023A3AA /* CrashCourseTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -130,6 +178,10 @@
 					080163BC2743D39500930886 = {
 						CreatedOnToolsVersion = 13.1;
 						LastSwiftMigration = 1310;
+					};
+					BE8CC805275FAA100023A3AA = {
+						CreatedOnToolsVersion = 13.1;
+						TestTargetID = 080163BC2743D39500930886;
 					};
 				};
 			};
@@ -147,6 +199,7 @@
 			projectRoot = "";
 			targets = (
 				080163BC2743D39500930886 /* CrashCourse */,
+				BE8CC805275FAA100023A3AA /* CrashCourseTests */,
 			);
 		};
 /* End PBXProject section */
@@ -158,6 +211,13 @@
 			files = (
 				080163CD2743D39600930886 /* LaunchScreen.storyboard in Resources */,
 				080163CA2743D39600930886 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE8CC804275FAA100023A3AA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,7 +245,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BE8CC802275FAA100023A3AA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE8CC809275FAA100023A3AA /* FriendsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BE8CC80B275FAA100023A3AA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 080163BC2743D39500930886 /* CrashCourse */;
+			targetProxy = BE8CC80A275FAA100023A3AA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		080163CB2743D39600930886 /* LaunchScreen.storyboard */ = {
@@ -370,6 +446,50 @@
 			};
 			name = Release;
 		};
+		BE8CC80C275FAA100023A3AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.saults.CrashCourseTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CrashCourse.app/CrashCourse";
+			};
+			name = Debug;
+		};
+		BE8CC80D275FAA100023A3AA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.saults.CrashCourseTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CrashCourse.app/CrashCourse";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -387,6 +507,15 @@
 			buildConfigurations = (
 				080163E82743D39600930886 /* Debug */,
 				080163E92743D39600930886 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BE8CC80E275FAA100023A3AA /* Build configuration list for PBXNativeTarget "CrashCourseTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BE8CC80C275FAA100023A3AA /* Debug */,
+				BE8CC80D275FAA100023A3AA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

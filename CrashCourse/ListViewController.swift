@@ -2,6 +2,13 @@
 // Copyright © Essential Developer. All rights reserved.
 //
 
+// BUGREPORT:
+// 1. Load the application
+// 2. See list of friends loaded
+// 3. Disble internet connection
+// 4. Pull to refresh friends list
+// 5. If premium user app will crash
+
 import UIKit
 
 class ListViewController: UITableViewController {
