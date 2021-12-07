@@ -11,7 +11,15 @@
 
 import UIKit
 
+protocol FriendsService {
+    func loadFriends(completion: @escaping (Result<[Friend], Error>) -> Void)
+}
+
+extension FriendsAPI: FriendsService {}
+
 class ListViewController: UITableViewController {
+    var user = User.shared
+    var cache = (UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate).cache
 	var items = [Any]()
 	
 	var retryCount = 0
@@ -23,7 +31,8 @@ class ListViewController: UITableViewController {
 	var fromReceivedTransfersScreen = false
 	var fromSentTransfersScreen = false
 	var fromCardsScreen = false
-	
+
+    var friendsService: FriendsService  = FriendsAPI.shared
 	var fromFriendsScreen = false
 	
 	override func viewDidLoad() {
@@ -63,7 +72,7 @@ class ListViewController: UITableViewController {
 	@objc private func refresh() {
 		refreshControl?.beginRefreshing()
 		if fromFriendsScreen {
-			FriendsAPI.shared.loadFriends { [weak self] result in
+			friendsService.loadFriends { [weak self] result in
 				self?.handleAPIResult(result)
 			}
 		} else if fromCardsScreen {
@@ -107,8 +116,8 @@ class ListViewController: UITableViewController {
 			
 			retryCount = 0
 			
-			if fromFriendsScreen && User.shared?.isPremium == true {
-				(UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate).cache.loadFriends { [weak self] result in
+			if fromFriendsScreen && user?.isPremium == true {
+                cache.loadFriends { [weak self] result in
 					switch result {
 					case let .success(items):
 						self?.items = items

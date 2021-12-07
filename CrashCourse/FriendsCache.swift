@@ -5,10 +5,16 @@
 import Foundation
 
 class FriendsCache {	
-	private var friends: [Friend]!
+	private var friends: [Friend]?
+
+    struct NoFriendsFoundError: Error {} 
 		
 	func loadFriends(completion: @escaping (Result<[Friend], Error>) -> Void) {
-		completion(.success(friends))
+        if let friends = friends {
+            completion(.success(friends))
+        } else {
+            completion(.failure(NoFriendsFoundError()))
+        }
 	}
 	
 	func save(_ newFriends: [Friend]) {
