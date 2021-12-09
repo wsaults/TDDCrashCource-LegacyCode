@@ -101,17 +101,10 @@ class FriendsTests: XCTestCase {
 
         XCTAssertEqual(sut.numberOfFriends(), 2)
 
-        let cell1 = sut.tableView.dataSource?.tableView(
-            sut.tableView,
-            cellForRowAt: IndexPath(row: 0, section: 0))
-        XCTAssertEqual(cell1?.textLabel?.text, friend1.name)
-        XCTAssertEqual(cell1?.detailTextLabel?.text, friend1.phone)
-
-        let cell2 = sut.tableView.dataSource?.tableView(
-            sut.tableView,
-            cellForRowAt: IndexPath(row: 1, section: 0))
-        XCTAssertEqual(cell2?.textLabel?.text, friend2.name)
-        XCTAssertEqual(cell2?.detailTextLabel?.text, friend2.phone)
+        XCTAssertEqual(sut.friendName(at: 0), friend1.name)
+        XCTAssertEqual(sut.friendPhone(at: 0), friend1.phone)
+        XCTAssertEqual(sut.friendName(at: 1), friend2.name)
+        XCTAssertEqual(sut.friendPhone(at: 1), friend2.phone)
     }
 }
 
@@ -122,6 +115,21 @@ private extension FriendsViewController {
     }
 
     func numberOfFriends() -> Int {
-        tableView.numberOfRows(inSection: 0)
+        tableView.numberOfRows(inSection: friendsSection)
     }
+
+    func friendName(at row: Int) -> String? {
+        friendCell(at: row)?.textLabel?.text
+    }
+
+    func friendPhone(at row: Int) -> String? {
+        friendCell(at: row)?.detailTextLabel?.text
+    }
+
+    private func friendCell(at row: Int) -> UITableViewCell? {
+        let indexPath = IndexPath(row: row, section: friendsSection)
+        return tableView.dataSource?.tableView(tableView, cellForRowAt: indexPath)
+    }
+
+    private var friendsSection: Int { 0 }
 }
