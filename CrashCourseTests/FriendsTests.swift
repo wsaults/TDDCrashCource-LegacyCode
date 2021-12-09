@@ -27,6 +27,14 @@ class FriendsViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        service.loadFriends { _ in
+            
+        }
+    }
 }
 
 class FriendsServiceSpy: FriendsService {
@@ -40,14 +48,21 @@ class FriendsServiceSpy: FriendsService {
 class FriendsTests: XCTestCase {
 
     func test_viewDidLoad_doesNotLoadFriendsFromAPI() {
-        // Arrange
         let service = FriendsServiceSpy()
         let sut = FriendsViewController(service: service)
 
-        // Act
         sut.loadViewIfNeeded()
 
-        // Assert
         XCTAssertEqual(service.loadFriendsCallCount, 0)
+    }
+
+    func test_viewWillAppear_loadsFriendsFromAPI() {
+        let service = FriendsServiceSpy()
+        let sut = FriendsViewController(service: service)
+
+        sut.loadViewIfNeeded()
+        sut.beginAppearanceTransition(true, animated: false)
+
+        XCTAssertEqual(service.loadFriendsCallCount, 1)
     }
 }
