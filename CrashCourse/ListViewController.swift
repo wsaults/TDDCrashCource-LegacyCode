@@ -4,7 +4,14 @@
 
 import UIKit
 
+protocol FriendsService {
+    func loadFriends(completion: @escaping (Result<[Friend], Error>) -> Void)
+}
+
+extension FriendsAPI: FriendsService {}
+
 class ListViewController: UITableViewController {
+    var user = User.shared
 	var items = [Any]()
 	
 	var retryCount = 0
@@ -100,7 +107,7 @@ class ListViewController: UITableViewController {
 			
 			retryCount = 0
 			
-			if fromFriendsScreen && User.shared?.isPremium == true {
+			if fromFriendsScreen && user?.isPremium == true {
 				(UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate).cache.loadFriends { [weak self] result in
 					switch result {
 					case let .success(items):
