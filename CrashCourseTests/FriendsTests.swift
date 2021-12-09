@@ -8,10 +8,10 @@ import XCTest
 /*
 x Load friends from API on viewWillAppear
 x If Successful: show friends
-- If failed:
-    - Retry twice
-        - If all retries fail: show error
-        - If a retry succeeds: show friends
+x If failed:
+    x Retry twice
+        x If all retries fail: show error
+        x If a retry succeeds: show friends
  - On selection: Show friend details
  */
 
@@ -34,25 +34,19 @@ class FriendsViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        load()
+    }
+
+    func load(retryCount: Int = 0) {
         service.loadFriends { result in
             switch result {
             case let .success(friends):
                 self.friends = friends
-            case .failure:
-                self.service.loadFriends { result in
-                    switch result {
-                    case .success:
-                        break
-                    case .failure:
-                        self.service.loadFriends { result in
-                            switch result {
-                            case .success:
-                                break
-                            case let .failure(error):
-                                self.show(error)
-                            }
-                        }
-                    }
+            case let .failure(error):
+                if retryCount == 2 {
+                    self.show(error)
+                } else {
+                    self.load(retryCount: retryCount+1)
                 }
             }
         }
@@ -117,12 +111,7 @@ class FriendsTests: XCTestCase {
 
         sut.simulateViewWillAppear()
 
-        XCTAssertEqual(sut.numberOfFriends(), 2)
-
-        XCTAssertEqual(sut.friendName(at: 0), friend1.name)
-        XCTAssertEqual(sut.friendPhone(at: 0), friend1.phone)
-        XCTAssertEqual(sut.friendName(at: 1), friend2.name)
-        XCTAssertEqual(sut.friendPhone(at: 1), friend2.phone)
+        sut.assert(isRendering: [friend1, friend2])
     }
 
     func test_viewWillAppear_failedAPIResponse_3times_showsError() {
@@ -136,6 +125,35 @@ class FriendsTests: XCTestCase {
         sut.simulateViewWillAppear()
 
         XCTAssertEqual(sut.errorMessage(), "3rd error")
+    }
+
+    func test_viewWillAppear_successAfterFailedAPIResponse_1time_showsFriends() {
+        let friend = Friend(id: UUID(), name: "a friend", phone: "a phone")
+        let service = FriendsServiceSpy(results: [
+            .failure(AnyError(errorDescription: "1st error")),
+            .success([friend])
+        ])
+        let sut = TestableFriendsViewController(service: service)
+
+        sut.simulateViewWillAppear()
+
+        XCTAssertEqual(sut.numberOfFriends(), 1)
+        XCTAssertEqual(sut.friendName(at: 0), friend.name)
+        XCTAssertEqual(sut.friendPhone(at: 0), friend.phone)
+    }
+
+    func test_viewWillAppear_successAfterFailedAPIResponse_2times_showsFriends() {
+        let friend = Friend(id: UUID(), name: "a friend", phone: "a phone")
+        let service = FriendsServiceSpy(results: [
+            .failure(AnyError(errorDescription: "1st error")),
+            .failure(AnyError(errorDescription: "2nd error")),
+            .success([friend])
+        ])
+        let sut = TestableFriendsViewController(service: service)
+
+        sut.simulateViewWillAppear()
+
+        sut.assert(isRendering: [friend])
     }
 }
 
@@ -160,6 +178,15 @@ private extension FriendsViewController {
     func simulateViewWillAppear() {
         loadViewIfNeeded()
         beginAppearanceTransition(true, animated: false)
+    }
+
+    func assert(isRendering friends: [Friend]) {
+        XCTAssertEqual(numberOfFriends(), friends.count)
+
+        for (index, friend) in friends.enumerated() {
+            XCTAssertEqual(friendName(at: index), friend.name)
+            XCTAssertEqual(friendPhone(at: index), friend.phone)
+        }
     }
 
     func numberOfFriends() -> Int {
