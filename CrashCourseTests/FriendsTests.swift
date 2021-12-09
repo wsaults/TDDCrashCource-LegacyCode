@@ -7,7 +7,7 @@ import XCTest
 
 /*
 x Load friends from API on viewWillAppear
-- If Successful: show friends
+x If Successful: show friends
 - If failed:
     - Retry twice
         - If all retries fail: show error
@@ -39,7 +39,21 @@ class FriendsViewController: UITableViewController {
             case let .success(friends):
                 self.friends = friends
             case .failure:
-                break
+                self.service.loadFriends { result in
+                    switch result {
+                    case .success:
+                        break
+                    case .failure:
+                        self.service.loadFriends { result in
+                            switch result {
+                            case .success:
+                                break
+                            case let .failure(error):
+                                self.show(error)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -59,15 +73,19 @@ class FriendsViewController: UITableViewController {
 
 class FriendsServiceSpy: FriendsService {
     private(set) var loadFriendsCallCount = 0
-    private let result: Result<[Friend], Error>
+    private var results: [Result<[Friend], Error>]
 
     init(result: [Friend] = []) {
-        self.result = .success(result)
+        self.results = [.success(result)]
+    }
+
+    init(results: [Result<[Friend], Error>]) {
+        self.results = results
     }
 
     func loadFriends(completion: @escaping (Result<[Friend], Error>) -> Void) {
         loadFriendsCallCount += 1
-        completion(result)
+        completion(results.removeFirst())
     }
 }
 
@@ -105,6 +123,36 @@ class FriendsTests: XCTestCase {
         XCTAssertEqual(sut.friendPhone(at: 0), friend1.phone)
         XCTAssertEqual(sut.friendName(at: 1), friend2.name)
         XCTAssertEqual(sut.friendPhone(at: 1), friend2.phone)
+    }
+
+    func test_viewWillAppear_failedAPIResponse_3times_showsError() {
+        let service = FriendsServiceSpy(results: [
+            .failure(AnyError(errorDescription: "1st error")),
+            .failure(AnyError(errorDescription: "2nd error")),
+            .failure(AnyError(errorDescription: "3rd error"))
+        ])
+        let sut = TestableFriendsViewController(service: service)
+
+        sut.simulateViewWillAppear()
+
+        XCTAssertEqual(sut.errorMessage(), "3rd error")
+    }
+}
+
+private struct AnyError: LocalizedError {
+    var errorDescription: String?
+}
+
+private class TestableFriendsViewController: FriendsViewController {
+    var presentedVC: UIViewController?
+
+    override func present(_ vc: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+        presentedVC = vc
+    }
+
+    func errorMessage() -> String? {
+        let alert = presentedVC as? UIAlertController
+        return alert?.message
     }
 }
 
